@@ -18,7 +18,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key')
 
 # SQLite (Render uchun to‘g‘ri joy)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/news.db'
+db_path = os.path.join(INSTANCE_DIR, 'news.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
