@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}SuperAdmin Panel{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>
+                <i class="fas fa-cog"></i> SuperAdmin Panel
+            </h1>
+            <div>
+                <a href="{{ url_for('add_region') }}" class="btn btn-primary me-2">
+                    <i class="fas fa-plus"></i> Hudud qo'shish
+                </a>
+                <a href="{{ url_for('add_admin') }}" class="btn btn-success">
+                    <i class="fas fa-user-plus"></i> Admin qo'shish
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-white border-bottom border-success text-success">
+                <h5 class="mb-0">
+                    <i class="fas fa-map-marked-alt"></i> Hududlar
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if regions %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nomi</th>
+                                <th>Slug</th>
+                                <th>Adminlar soni</th>
+                                <th>Yangiliklar soni</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for region in regions %}
+                            <tr>
+                                <td class="fw-bold">{{ region.name }}</td>
+                                <td><span class="badge bg-light text-dark border">{{ region.slug }}</span></td>
+                                <td><span class="badge bg-success rounded-pill">{{ region.admins|length }}</span></td>
+                                <td><span class="badge bg-info rounded-pill">{{ region.news|length }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">Hududlar hali qo'shilmagan</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-white border-bottom border-info text-info">
+                <h5 class="mb-0">
+                    <i class="fas fa-users"></i> Adminlar
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if admins %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Username</th>
+                                <th>Hudud</th>
+                                <th>Yangiliklar soni</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for admin in admins %}
+                            <tr>
+                                <td class="fw-bold">{{ admin.username }}</td>
+                                <td><span class="badge bg-light text-dark border">{{ admin.region.name }}</span></td>
+                                <td><span class="badge bg-primary rounded-pill">{{ admin.news|length }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">Adminlar hali qo'shilmagan</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-white border-bottom border-primary text-primary">
+                <h5 class="mb-0">
+                    <i class="fas fa-newspaper"></i> Barcha Yangiliklar
+                </h5>
+            </div>
+            <div class="card-body">
+                {% set all_news = [] %}
+                {% for region in regions %}
+                {% for news in region.news %}
+                {% set _ = all_news.append(news) %}
+                {% endfor %}
+                {% endfor %}
+
+                {% if all_news %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Sarlavha</th>
+                                <th>Muallif</th>
+                                <th>Hudud</th>
+                                <th>Sana</th>
+                                <th>Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for news in all_news|sort(attribute='created_at', reverse=true) %}
+                            <tr>
+                                <td class="fw-bold text-dark">{{ news.title }}</td>
+                                <td>{{ news.admin.username }}</td>
+                                <td><span class="badge bg-light text-dark border">{{ news.region.name }}</span></td>
+                                <td class="text-muted">{{ news.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                                <td>
+                                    <form method="POST"
+                                        action="{{ url_for('superadmin_delete_news', news_id=news.id) }}"
+                                        class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Rostdan ham o\'chirmoqchimisiz?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">Yangiliklar hali qo'shilmagan</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

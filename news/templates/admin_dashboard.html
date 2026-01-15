@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}{{ region.name }} Admin Panel{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1>
+                    <i class="fas fa-user-shield"></i> {{ region.name }} Admin Panel
+                </h1>
+                <p class="text-muted mb-0">Xush kelibsiz, {{ admin.username }}!</p>
+            </div>
+            <a href="{{ url_for('add_news', region_slug=region.slug) }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Yangilik qo'shish
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-white border-bottom border-success text-success">
+                <h5 class="mb-0">
+                    <i class="fas fa-newspaper"></i> {{ region.name }} Yangiliklari
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if news_list %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Sarlavha</th>
+                                <th>Mazmuni</th>
+                                <th>Sana</th>
+                                <th>Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for news in news_list %}
+                            <tr>
+                                <td>
+                                    <strong class="text-dark">{{ news.title }}</strong>
+                                    {% if news.admin_id == admin.id %}
+                                    <span class="badge bg-success ms-2">Sizning yangilik</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-muted">
+                                    {{ news.content[:100] }}{% if news.content|length > 100 %}...{% endif %}
+                                </td>
+                                <td class="text-secondary">{{ news.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                                <td>
+                                    {% if news.admin_id == admin.id %}
+                                    <a href="{{ url_for('edit_news', region_slug=region.slug, news_id=news.id) }}"
+                                        class="btn btn-sm btn-outline-warning me-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="POST"
+                                        action="{{ url_for('delete_news', region_slug=region.slug, news_id=news.id) }}"
+                                        class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Rostdan ham o\'chirmoqchimisiz?')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    {% else %}
+                                    <span class="text-muted">
+                                        <i class="fas fa-lock"></i> Faqat muallif tahrirlay oladi
+                                    </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">Yangiliklar hali yo'q</h4>
+                    <p class="text-muted">Birinchi yangilikni qo'shish uchun yuqoridagi tugmani bosing</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle"></i> Ma'lumot
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong>Jami yangiliklar:</strong> {{ news_list|length }}
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Sizning yangiliklaringiz:</strong> {{ admin.news|length }}
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Hudud:</strong> {{ region.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

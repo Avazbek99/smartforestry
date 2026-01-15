@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Barcha Yangiliklar{% endblock %}
+
+{% block content %}
+<div class="row pt-5">
+    <div class="col-12 text-center mb-5">
+        <h1 class="display-4 fw-bold" style="color: var(--eco-dark);">
+            <i class="fas fa-leaf text-success me-3" style="filter: drop-shadow(0 0 5px rgba(0,200,83,0.5));"></i>
+            {% if search_query %}
+            "{{ search_query }}"
+            {% elif current_region_id %}
+            Hudud Yangiliklari
+            {% else %}
+            So'ngi Yangiliklar
+            {% endif %}
+        </h1>
+        <div
+            style="height: 6px; width: 120px; background: linear-gradient(90deg, var(--eco-green), var(--eco-teal)); margin: 20px auto; border-radius: 50px;">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% if news_list %}
+    {% for news in news_list %}
+    <div class="col-lg-6 col-md-8 col-12 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h5 class="card-title fw-bold text-dark">{{ news.title }}</h5>
+                    <span class="badge region-badge">{{ news.region.name }}</span>
+                </div>
+
+                <div class="news-meta mb-3 text-muted">
+                    <span class="me-3"><i class="fas fa-user-circle me-1 text-success"></i> {{ news.admin.username
+                        }}</span>
+                    <span><i class="fas fa-clock me-1 text-info"></i> {{ news.created_at.strftime('%d.%m.%Y %H:%M')
+                        }}</span>
+                </div>
+
+                <p class="card-text text-secondary">{{ news.content[:200] }}{% if news.content|length > 200 %}...{%
+                    endif %}</p>
+
+                {% if news.content|length > 200 %}
+                <button class="btn btn-sm btn-outline-primary mt-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#news{{ news.id }}">
+                    To'liq o'qish
+                </button>
+                <div class="collapse mt-3" id="news{{ news.id }}">
+                    <div class="p-3 rounded"
+                        style="background: rgba(0,200,83,0.05); border-left: 3px solid var(--eco-green); color: #37474f;">
+                        {{ news.content }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="col-12">
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-seedling fa-4x mb-3 text-success"
+                    style="filter: drop-shadow(0 5px 15px rgba(0,200,83,0.3));"></i>
+            </div>
+            <h3 class="text-muted">Hozircha yangiliklar yo'q</h3>
+            <p class="text-secondary">Tabiat uyg'onmoqda... Tez orada yangiliklar bo'ladi.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Pagination -->
+{% if pagination.pages > 1 %}
+<nav aria-label="Page navigation" class="mt-4 mb-4">
+    <ul class="pagination justify-content-center">
+        {% if pagination.prev_num %}
+        <li class="page-item">
+            <a class="page-link"
+                href="{{ url_for('index', page=pagination.prev_num, q=search_query, region_id=current_region_id) }}">Oldingi</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Oldingi</span>
+        </li>
+        {% endif %}
+
+        {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+        {% if page_num == pagination.page %}
+        <li class="page-item active">
+            <span class="page-link">{{ page_num }}</span>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link"
+                href="{{ url_for('index', page=page_num, q=search_query, region_id=current_region_id) }}">{{ page_num
+                }}</a>
+        </li>
+        {% endif %}
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">...</span>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if pagination.next_num %}
+        <li class="page-item">
+            <a class="page-link"
+                href="{{ url_for('index', page=pagination.next_num, q=search_query, region_id=current_region_id) }}">Keyingi</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">Keyingi</span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
