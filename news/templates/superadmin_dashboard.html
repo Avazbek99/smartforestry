@@ -1,8 +1,76 @@
 {% extends "base.html" %}
 
-{% block title %}SuperAdmin Panel{% endblock %}
+{% block title %}{{ _('SuperAdmin Panel') }}{% endblock %}
 
 {% block content %}
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-0 bg-gradient-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0">{{ regions|length }}</h4>
+                        <p class="mb-0">{{ _('Jami hududlar') }}</p>
+                    </div>
+                    <div class="ms-3">
+                        <i class="fas fa-map-marked-alt fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-0 bg-gradient-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0">{{ admins|length }}</h4>
+                        <p class="mb-0">Jami adminlar</p>
+                    </div>
+                    <div class="ms-3">
+                        <i class="fas fa-users fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-0 bg-gradient-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        {% set total_news = 0 %}
+                        {% for region in regions %}
+                        {% set total_news = total_news + region.news|length %}
+                        {% endfor %}
+                        <h4 class="mb-0">{{ total_news }}</h4>
+                        <p class="mb-0">Jami yangiliklar</p>
+                    </div>
+                    <div class="ms-3">
+                        <i class="fas fa-newspaper fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-0 bg-gradient-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-0">{{ categories|length }}</h4>
+                        <p class="mb-0">Kategoriyalar</p>
+                    </div>
+                    <div class="ms-3">
+                        <i class="fas fa-tags fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -11,10 +79,10 @@
             </h1>
             <div>
                 <a href="{{ url_for('add_region') }}" class="btn btn-primary me-2">
-                    <i class="fas fa-plus"></i> Hudud qo'shish
+                    <i class="fas fa-plus"></i> {{ _('Hudud qo\'shish') }}
                 </a>
                 <a href="{{ url_for('add_admin') }}" class="btn btn-success">
-                    <i class="fas fa-user-plus"></i> Admin qo'shish
+                    <i class="fas fa-user-plus"></i> {{ _('Admin qo\'shish') }}
                 </a>
             </div>
         </div>
@@ -35,10 +103,10 @@
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th>Nomi</th>
-                                <th>Slug</th>
-                                <th>Adminlar soni</th>
-                                <th>Yangiliklar soni</th>
+                                <th>{{ _('Nomi') }}</th>
+                                <th>{{ _('Slug') }}</th>
+                                <th>{{ _('Adminlar soni') }}</th>
+                                <th>{{ _('Yangiliklar soni') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,7 +122,7 @@
                     </table>
                 </div>
                 {% else %}
-                <p class="text-muted">Hududlar hali qo'shilmagan</p>
+                <p class="text-muted">{{ _('Hududlar hali qo\'shilmagan') }}</p>
                 {% endif %}
             </div>
         </div>
@@ -73,9 +141,9 @@
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th>Username</th>
-                                <th>Hudud</th>
-                                <th>Yangiliklar soni</th>
+                                <th>{{ _('Username') }}</th>
+                                <th>{{ _('Hudud') }}</th>
+                                <th>{{ _('Yangiliklar soni') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,7 +158,7 @@
                     </table>
                 </div>
                 {% else %}
-                <p class="text-muted">Adminlar hali qo'shilmagan</p>
+                <p class="text-muted">{{ _('Adminlar hali qo\'shilmagan') }}</p>
                 {% endif %}
             </div>
         </div>
@@ -118,11 +186,11 @@
                     <table class="table table-hover align-middle">
                         <thead class="table-light">
                             <tr>
-                                <th>Sarlavha</th>
-                                <th>Muallif</th>
-                                <th>Hudud</th>
-                                <th>Sana</th>
-                                <th>Amallar</th>
+                                <th>{{ _('Sarlavha') }}</th>
+                                <th>{{ _('Muallif') }}</th>
+                                <th>{{ _('Hudud') }}</th>
+                                <th>{{ _('Sana') }}</th>
+                                <th>{{ _('Amallar') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -137,7 +205,7 @@
                                         action="{{ url_for('superadmin_delete_news', news_id=news.id) }}"
                                         class="d-inline">
                                         <button type="submit" class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('Rostdan ham o\'chirmoqchimisiz?')">
+                                            onclick="return confirm('{{ _('Rostdan ham o\'chirmoqchimisiz?') }}')">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
@@ -148,7 +216,7 @@
                     </table>
                 </div>
                 {% else %}
-                <p class="text-muted">Yangiliklar hali qo'shilmagan</p>
+                <p class="text-muted">{{ _('Yangiliklar hali qo\'shilmagan') }}</p>
                 {% endif %}
             </div>
         </div>
