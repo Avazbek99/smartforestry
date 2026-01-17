@@ -230,7 +230,7 @@ def login_required_admin(f):
 # --------------------
 @app.context_processor
 def inject_globals():
-    return dict(regions=Region.query.all(), categories=Category.query.all(), random=random)
+    return dict(regions=Region.query.all(), categories=Category.query.all(), random=random, _=_)
 
 
 # --------------------
