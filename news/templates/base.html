@@ -457,21 +457,15 @@
                         <i class="fas fa-sign-out-alt"></i> Chiqish
                     </a>
                     {% elif 'admin_id' in session %}
-                    {% if region %}
-                    <a class="nav-link" href="{{ url_for('admin_dashboard', region_slug=region.slug) }}">
+                    <a class="nav-link" href="{{ url_for('admin_dashboard') }}">
                         <i class="fas fa-user-shield"></i> Admin Panel
                     </a>
-                    {% else %}
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-user-shield"></i> Admin Panel
-                    </a>
-                    {% endif %}
                     <a class="nav-link" href="{{ url_for('logout') }}">
                         <i class="fas fa-sign-out-alt"></i> Chiqish
                     </a>
                     {% else %}
-                    <a class="nav-link" href="{{ url_for('superadmin_login') }}">
-                        <i class="fas fa-user-shield"></i> SuperAdmin
+                    <a class="nav-link" href="{{ url_for('login') }}">
+                        <i class="fas fa-user-shield"></i> Admin
                     </a>
                     {% endif %}
                 </div>

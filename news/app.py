@@ -211,7 +211,7 @@ def login_required_superadmin(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         if 'superadmin_id' not in session:
-            return redirect(url_for('superadmin_login'))
+            return redirect(url_for('login'))
         return f(*args, **kwargs)
     return wrapper
 
@@ -220,7 +220,7 @@ def login_required_admin(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         if 'admin_id' not in session:
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
         return f(*args, **kwargs)
     return wrapper
 
@@ -272,17 +272,28 @@ def index():
 
 
 @app.route('/admin/login', methods=['GET', 'POST'])
-def superadmin_login():
+def login():
     if request.method == 'POST':
-        user = SuperAdmin.query.filter_by(username=request.form['username']).first()
-        if user and user.check_password(request.form['password']):
+        username = request.form['username']
+        password = request.form['password']
+        
+        # Try SuperAdmin first
+        user = SuperAdmin.query.filter_by(username=username).first()
+        if user and user.check_password(password):
             session['superadmin_id'] = user.id
             return redirect(url_for('superadmin_dashboard'))
-        flash('Login yoki parol noto‘g‘ri')
+        
+        # Try Region Admin
+        admin = Admin.query.filter_by(username=username).first()
+        if admin and admin.check_password(password):
+            session['admin_id'] = admin.id
+            return redirect(url_for('admin_dashboard'))
+            
+        flash(_('Login yoki parol noto‘g‘ri'))
     return render_template('login.html')
 
 
-@app.route('/admin/dashboard')
+@app.route('/superadmin/dashboard')
 @login_required_superadmin
 def superadmin_dashboard():
     return render_template(
@@ -322,29 +333,22 @@ def add_admin():
     return render_template('add_admin.html', regions=regions)
 
 
-@app.route('/admin/login', methods=['GET', 'POST'])
-def admin_login():
-    if request.method == 'POST':
-        admin = Admin.query.filter_by(username=request.form['username']).first()
-        if admin and admin.check_password(request.form['password']):
-            session['admin_id'] = admin.id
-            return redirect(url_for('admin_dashboard'))
-        flash('Login yoki parol noto‘g‘ri')
-    return render_template('admin_login.html')
 
 
 @app.route('/admin/dashboard')
 @login_required_admin
 def admin_dashboard():
     admin = Admin.query.get(session['admin_id'])
+    region = Region.query.get(admin.region_id)
     news_list = News.query.filter_by(admin_id=admin.id).order_by(News.created_at.desc()).all()
-    return render_template('admin_dashboard.html', admin=admin, news=news_list)
+    return render_template('admin_dashboard.html', admin=admin, region=region, news_list=news_list)
 
 
 @app.route('/admin/news/add', methods=['GET', 'POST'])
 @login_required_admin
 def add_news():
     admin = Admin.query.get(session['admin_id'])
+    region = Region.query.get(admin.region_id)
     if request.method == 'POST':
         news = News(
             title=request.form['title'],
@@ -357,7 +361,71 @@ def add_news():
         db.session.add(news)
         db.session.commit()
         return redirect(url_for('admin_dashboard'))
-    return render_template('add_news.html', categories=Category.query.all())
+    return render_template('add_news.html', categories=Category.query.all(), region=region)
+
+@app.route('/admin/news/edit/<int:news_id>', methods=['GET', 'POST'])
+@login_required_admin
+def edit_news(news_id):
+    admin = Admin.query.get(session['admin_id'])
+    region = Region.query.get(admin.region_id)
+    news = News.query.get_or_404(news_id)
+    
+    if news.admin_id != admin.id:
+        flash(_('Siz faqat o‘zingizning yangiliklaringizni tahrirlashingiz mumkin'))
+        return redirect(url_for('admin_dashboard'))
+        
+    if request.method == 'POST':
+        news.title = request.form['title']
+        news.content = request.form['content']
+        news.image_url = request.form.get('image_url')
+        news.category_id = request.form.get('category_id')
+        db.session.commit()
+        return redirect(url_for('admin_dashboard'))
+        
+    return render_template('edit_news.html', news=news, categories=Category.query.all(), region=region)
+
+@app.route('/admin/news/delete/<int:news_id>', methods=['POST'])
+@login_required_admin
+def delete_news(news_id):
+    admin = Admin.query.get(session['admin_id'])
+    news = News.query.get_or_404(news_id)
+    
+    if news.admin_id != admin.id:
+        flash(_('Siz faqat o‘zingizning yangiliklaringizni o‘chirishingiz mumkin'))
+        return redirect(url_for('admin_dashboard'))
+        
+    db.session.delete(news)
+    db.session.commit()
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/superadmin/news/delete/<int:news_id>', methods=['POST'])
+@login_required_superadmin
+def superadmin_delete_news(news_id):
+    news = News.query.get_or_404(news_id)
+    db.session.delete(news)
+    db.session.commit()
+    return redirect(url_for('superadmin_dashboard'))
+
+@app.route('/superadmin/region/delete/<int:region_id>', methods=['POST'])
+@login_required_superadmin
+def superadmin_delete_region(region_id):
+    region = Region.query.get_or_404(region_id)
+    # Delete all news and admins associated with this region
+    News.query.filter_by(region_id=region_id).delete()
+    Admin.query.filter_by(region_id=region_id).delete()
+    db.session.delete(region)
+    db.session.commit()
+    return redirect(url_for('superadmin_dashboard'))
+
+@app.route('/superadmin/admin/delete/<int:admin_id>', methods=['POST'])
+@login_required_superadmin
+def superadmin_delete_admin(admin_id):
+    admin = Admin.query.get_or_404(admin_id)
+    # Optionally delete news by this admin
+    # News.query.filter_by(admin_id=admin_id).delete()
+    db.session.delete(admin)
+    db.session.commit()
+    return redirect(url_for('superadmin_dashboard'))
 
 
 @app.route('/logout')
