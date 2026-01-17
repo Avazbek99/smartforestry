@@ -1,0 +1,73 @@
+# Translations template file
+# Copyright (C) 2024 ORGANIZATION
+
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2024-01-17 11:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#: templates/base.html:5
+msgid "Yangiliklar sayti"
+msgstr "EcoNews - Ekologik Yangiliklar"
+
+#: templates/base.html:27
+msgid "EcoNews"
+msgstr "EcoNews"
+
+#: templates/index.html:13
+msgid "So'nggi ekologik yangiliklar"
+msgstr "So'nggi ekologik yangiliklar"
+
+#: templates/index.html:20
+msgid "O'rmonlar va yashil hududlar haqida eng so'ngi ma'lumotlar"
+msgstr "O'rmonlar va yashil hududlar haqida eng so'ngi ma'lumotlar"
+
+#: templates/index.html:25
+msgid "Yangiliklarni ko'rish"
+msgstr "Yangiliklarni ko'rish"
+
+#: templates/index.html:28
+msgid "Statistika"
+msgstr "Statistika"
+
+#: templates/index.html:44
+#, python-format
+msgid "bo'yicha <strong>%(total)s</strong> ta yangilik topildi"
+msgstr "bo'yicha <strong>%(total)s</strong> ta yangilik topildi"
+
+#: templates/index.html:46
+#, python-format
+msgid "%(region)s uchun <strong>%(total)s</strong> ta yangilik"
+msgstr "%(region)s uchun <strong>%(total)s</strong> ta yangilik"
+
+#: templates/index.html:63
+msgid "Hozircha yangiliklar yo'q"
+msgstr "Hozircha yangiliklar yo'q"
+
+#: templates/index.html:64
+msgid "Tabiat uyg'onmoqda... Tez orada yangiliklar bo'ladi."
+msgstr "Tabiat uyg'onmoqda... Tez orada yangiliklar bo'ladi."
+
+#: templates/index.html:98
+msgid "To'liq o'qish"
+msgstr "To'liq o'qish"
+
+#: templates/index.html:123
+msgid "Yoqdi"
+msgstr "Yoqdi"
+
+#: templates/index.html:126
+msgid "Ulashish"
+msgstr "Ulashish"
+
+#: templates/index.html:210
+#, python-format
+msgid "📊 Statistika:\\n\\n📰 Jami yangiliklar: %(total_news)s\\n📄 Sahifalar: %(total_pages)s\\n🌱 Hududlar: %(regions_count)s"
+msgstr "📊 Statistika:\\n\\n📰 Jami yangiliklar: %(total_news)s\\n📄 Sahifalar: %(total_pages)s\\n🌱 Hududlar: %(regions_count)s"

@@ -11,130 +11,307 @@ agentligi{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<div class="hero-section fade-in">
-    <div class="row">
-        <div class="col-12 text-center">
-            <h1 class="display-3 fw-bold mb-4" style="color: var(--eco-dark); position: relative; z-index: 1;">
-                <i class="fas fa-leaf text-success me-3" style="filter: drop-shadow(0 0 8px rgba(0,200,83,0.6));"></i>
-                {% if search_query %}
-                "{{ search_query }}" {{ _('bo\'yicha natijalar') }}
-                {% elif current_region_id %}
-                <span class="text-gradient">{{ regions|selectattr('id', 'equalto', current_region_id)|first|attr('name')
-                    }} {{ _('hudud yangiliklari') }}</span>
-                {% else %}
-                <span class="text-gradient">{{ _("So'nggi ekologik yangiliklar") }}</span>
-                {% endif %}
-            </h1>
-            <p class="lead mb-4" style="color: var(--eco-teal); font-size: 1.2rem;">
-                {{ _("O'rmonlar va yashil hududlar haqida eng so'nggi ma'lumotlar") }}
-            </p>
-            <div class="d-flex justify-content-center gap-3">
-                <button class="btn btn-eco btn-lg" onclick="scrollToNews()">
-                    <i class="fas fa-newspaper me-2"></i>{{ _('Yangiliklarni ko\'rish') }}
-                </button>
-                <button class="btn btn-outline-primary btn-lg" onclick="showStats()">
-                    <i class="fas fa-chart-line me-2"></i>{{ _('Statistika') }}
-                </button>
+<div class="hero-section py-5 mb-5 overflow-hidden position-relative">
+    <div class="container py-lg-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="inline-flex align-items-center px-3 py-1 rounded-pill bg-light border mb-4 fade-in">
+                    <span class="badge bg-success me-2">Yangi</span>
+                    <small class="text-muted fw-500">{{ _('Ekologik yangiliklar platformasi') }}</small>
+                </div>
+                <h1 class="display-3 fw-bold mb-4 animate-up text-eco-gradient">
+                    {% if search_query %}
+                    "{{ search_query }}" {{ _('bo\'yicha natijalar') }}
+                    {% elif current_region_id %}
+                    {{ regions|selectattr('id', 'equalto', current_region_id)|first|attr('name') }} {{ _('hudud
+                    yangiliklari') }}
+                    {% else %}
+                    {{ _("So'nggi ekologik yangiliklar") }}
+                    {% endif %}
+                </h1>
+                <p class="lead mb-5 text-muted-serious animate-up-delay-1">
+                    {{ _("O'rmonlar va yashil hududlar haqida eng so'nggi ma'lumotlar") }}
+                </p>
+                <div class="d-flex justify-content-center gap-3 animate-up-delay-2">
+                    <button class="btn btn-primary btn-lg shadow-eco" onclick="scrollToNews()">
+                        <i class="fas fa-newspaper me-2"></i>{{ _('Yangiliklarni ko\'rish') }}
+                    </button>
+                    <button class="btn btn-outline-dark btn-lg" onclick="showStats()">
+                        <i class="fas fa-chart-line me-2"></i>{{ _('Statistika') }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+    .text-eco-gradient {
+        background: linear-gradient(135deg, var(--eco-primary) 0%, #065f46 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .text-muted-serious {
+        color: #475569;
+        font-weight: 400;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .shadow-eco {
+        box-shadow: 0 10px 15px -3px rgba(6, 78, 59, 0.2);
+    }
+
+    .animate-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .animate-up-delay-1 {
+        animation: fadeInUp 0.8s ease-out 0.2s forwards;
+        opacity: 0;
+    }
+
+    .animate-up-delay-2 {
+        animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
 <!-- Search Stats -->
 {% if search_query or current_region_id %}
 <div class="row mb-4">
     <div class="col-12">
-        <div class="alert alert-info fade-in"
-            style="background: rgba(0, 200, 83, 0.1); border: 1px solid var(--eco-green); border-radius: 15px;">
+        <div class="alert alert-eco-serious fade-in">
             <div class="d-flex justify-content-between align-items-center">
-                <div>
+                <div class="text-eco-primary">
                     <i class="fas fa-info-circle me-2"></i>
                     {% if search_query %}
                     "{{ search_query }}" {{ _("bo'yicha") }} <strong>{{ pagination.total }}</strong> {{ _("ta yangilik
-                    topildi") }}
+                    toptiildi") }}
                     {% elif current_region_id %}
                     {{ regions|selectattr('id', 'equalto', current_region_id)|first|attr('name') }} {{ _("uchun") }}
                     <strong>{{ pagination.total }}</strong> {{ _("ta yangilik") }}
                     {% endif %}
                 </div>
-                <a href="{{ url_for('index') }}" class="btn btn-sm btn-outline-primary">
+                <a href="{{ url_for('index') }}" class="btn btn-sm btn-outline-eco">
                     <i class="fas fa-times me-1"></i>{{ _('Tozalash') }}
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .alert-eco-serious {
+        background: white;
+        border-left: 4px solid var(--eco-secondary);
+        box-shadow: var(--shadow-sm);
+        color: var(--eco-text-main);
+    }
+
+    .text-eco-primary {
+        color: var(--eco-primary);
+        font-weight: 500;
+    }
+
+    .btn-outline-eco {
+        color: var(--eco-secondary);
+        border-color: var(--eco-secondary);
+    }
+
+    .btn-outline-eco:hover {
+        background: var(--eco-secondary);
+        color: white;
+    }
+
+    /* New styles for news cards */
+    .news-image {
+        height: 200px;
+        object-fit: cover;
+        border-top-left-radius: var(--bs-card-border-radius);
+        border-top-right-radius: var(--bs-card-border-radius);
+    }
+
+    .news-image-placeholder {
+        height: 200px;
+        background-color: var(--bs-gray-200);
+        border-top-left-radius: var(--bs-card-border-radius);
+        border-top-right-radius: var(--bs-card-border-radius);
+    }
+
+    .badge.bg-blur {
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+    }
+
+    .divider-dot {
+        width: 4px;
+        height: 4px;
+        background-color: var(--bs-gray-400);
+        border-radius: 50%;
+        margin: 0 8px;
+    }
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .shadow-hover {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .shadow-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .hover-secondary:hover {
+        color: var(--eco-secondary) !important;
+    }
+
+    .avatar-sm {
+        width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+    }
+
+    .bg-soft-emerald {
+        background-color: rgba(6, 78, 59, 0.1);
+    }
+
+    .btn-icon {
+        width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: var(--bs-light);
+        color: var(--bs-gray-600);
+        border: 1px solid var(--bs-gray-300);
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-icon:hover {
+        background-color: var(--eco-primary);
+        color: white;
+        border-color: var(--eco-primary);
+    }
+
+    .btn-icon .fa-heart.fas {
+        color: #e11d48;
+    }
+
+    .animate-heart {
+        animation: heartBeat 0.5s;
+    }
+
+    @keyframes heartBeat {
+        0% {
+            transform: scale(1);
+        }
+
+        25% {
+            transform: scale(1.2);
+        }
+
+        50% {
+            transform: scale(1);
+        }
+
+        75% {
+            transform: scale(1.2);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+</style>
 {% endif %}
 
 <!-- News Grid -->
-<div id="news-section" class="row">
+<div id="news-section" class="row g-4">
     {% if news_list %}
     {% for news in news_list %}
-    <div class="col-lg-6 col-md-8 col-12 mb-4">
-        <div class="card h-100 news-card slide-in-left" style="animation-delay: {{ loop.index0 * 100 }}ms;">
-            {% if news.image_url %}
-            <img src="{{ news.image_url }}" class="card-img-top" alt="{{ news.title }}"
-                style="height: 200px; object-fit: cover;">
-            {% endif %}
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <h5 class="card-title fw-bold text-dark">{{ news.title }}</h5>
-                    <div class="d-flex gap-2">
-                        {% if news.category %}
-                        <span class="badge bg-info text-white">
-                            <i class="{{ news.category.icon }} me-1"></i>{{ news.category.name }}
-                        </span>
-                        {% endif %}
-                        <span class="badge region-badge">
-                            <i class="fas fa-map-marker-alt me-1"></i>{{ news.region.name }}
-                        </span>
-                        <span class="badge admin-badge">
-                            <i class="fas fa-user me-1"></i>{{ news.admin.username }}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="news-meta mb-3 text-muted">
-                    <span class="me-3">
-                        <i class="fas fa-clock me-1 text-info"></i>
-                        <span class="time-ago" data-date="{{ news.created_at.isoformat() }}">{{
-                            news.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
-                    </span>
-                    <span class="me-3">
-                        <i class="fas fa-eye me-1 text-primary"></i>
-                        <span class="view-count">{{ random.randint(50, 500) }}</span> {{ _("marta ko'rildi") }}
-                    </span>
-                    <span>
-                        <i class="fas fa-comment me-1 text-warning"></i>
-                        <span class="comment-count">{{ random.randint(0, 25) }}</span> {{ _('izoh') }}
-                    </span>
-                </div>
-
-                <p class="card-text text-secondary">{{ news.content[:200] }}{% if news.content|length > 200 %}...{%
-                    endif %}</p>
-
-                {% if news.content|length > 200 %}
-                <button class="btn btn-sm btn-outline-primary mt-2" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#news{{ news.id }}">
-                    <i class="fas fa-book-open me-1"></i>{{ _("To'liq o'qish") }}
-                </button>
-                <div class="collapse mt-3" id="news{{ news.id }}">
-                    <div class="p-3 rounded"
-                        style="background: rgba(0,200,83,0.05); border-left: 3px solid var(--eco-green); color: #37474f;">
-                        {{ news.content }}
-                    </div>
+    <div class="col-lg-4 col-md-6 col-12 mb-4">
+        <div class="card h-100 border-0 shadow-hover animate-up" style="animation-delay: {{ loop.index0 * 100 }}ms;">
+            <div class="position-relative overflow-hidden">
+                {% if news.image_url %}
+                <img src="{{ news.image_url }}" class="card-img-top news-image" alt="{{ news.title }}">
+                {% else %}
+                <div class="card-img-top news-image-placeholder d-flex align-items-center justify-content-center">
+                    <i class="fas fa-tree fa-3x text-light opacity-25"></i>
                 </div>
                 {% endif %}
+                {% if news.category %}
+                <div class="position-absolute top-0 start-0 m-3">
+                    <span class="badge bg-blur text-white px-3 py-2 rounded-pill small">
+                        <i class="{{ news.category.icon }} me-1"></i>{{ news.category.name }}
+                    </span>
+                </div>
+                {% endif %}
+            </div>
 
-                <div class="mt-3 d-flex gap-2">
-                    <button class="btn btn-sm btn-outline-success" onclick="likeNews({{ news.id }})"
-                        data-news-id="{{ news.id }}">
-                        <i class="far fa-thumbs-up"></i> {{ _('Yoqdi') }}
-                    </button>
-                    <button class="btn btn-sm btn-outline-info" onclick="shareNews({{ news.id }})"
-                        data-news-id="{{ news.id }}">
-                        <i class="fas fa-share"></i> {{ _('Ulashish') }}
-                    </button>
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="mb-2 d-flex align-items-center text-muted small">
+                    <span class="badge bg-light text-eco-secondary rounded-pill px-2 me-2">{{ news.region.name }}</span>
+                    <span class="divider-dot"></span>
+                    <span>{{ news.created_at.strftime('%d.%m.%Y') }}</span>
+                </div>
+
+                <h4 class="card-title fw-bold mb-3 h5 line-clamp-2">
+                    <a href="#" class="text-decoration-none text-eco-dark hover-secondary">{{ news.title }}</a>
+                </h4>
+
+                <p class="card-text text-muted-serious flex-grow-1 mb-4 line-clamp-3">
+                    {{ news.content[:120] }}...
+                </p>
+
+                <div class="mt-auto pt-3 border-top d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div
+                            class="avatar-sm bg-soft-emerald rounded-circle d-flex align-items-center justify-content-center me-2">
+                            <i class="fas fa-user-circle text-eco-primary"></i>
+                        </div>
+                        <span class="small fw-600 text-eco-primary">{{ news.admin.username }}</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-icon" onclick="likeNews(this, {{ news.id }})">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="btn btn-icon share-btn" data-news-id="{{ news.id }}"
+                            data-news-title="{{ news.title|e }}">
+                            <i class="far fa-share-square"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -210,180 +387,117 @@ agentligi{% endblock %}
 {% set regions_count = regions|length %}
 
 <script>
-    // JavaScript functions for interactivity
+    // Global scrolling function
     function scrollToNews() {
-        document.getElementById('news-section').scrollIntoView({
-            behavior: 'smooth'
-        });
-    }
-
-    function showStats() {
-        const totalNews = {{ total_news }};
-    const totalPages = {{ total_pages }};
-    const regionsCount = {{ regions_count }};
-
-    alert(`📊 Statistika:\n\n📰 Jami yangiliklar: ${totalNews}\n📄 Sahifalar: ${totalPages}\n🌱 Hududlar: ${regionsCount}`);
-    }
-
-    function likeNews(newsId) {
-        const btn = document.querySelector(`[data-news-id="${newsId}"]`);
-        const icon = btn.querySelector('i');
-
-        if (icon.classList.contains('fas')) {
-            icon.classList.remove('fas');
-            icon.classList.add('far');
-            btn.classList.remove('btn-success');
-            btn.classList.add('btn-outline-success');
-        } else {
-            icon.classList.remove('far');
-            icon.classList.add('fas');
-            btn.classList.remove('btn-outline-success');
-            btn.classList.add('btn-success');
+        const section = document.getElementById('news-section');
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
-    function shareNews(newsId) {
-        const newsTitle = document.querySelector(`[data-news-id="${newsId}"]`).closest('.card').querySelector('.card-title').textContent;
-        const newsUrl = window.location.href;
-
-        // Create share modal
-        const modal = document.createElement('div');
-        modal.className = 'modal fade';
-        modal.innerHTML = `
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-share-alt me-2"></i>Yangilikni ulashish
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="mb-3"><strong>${newsTitle}</strong></p>
-                    <div class="d-grid gap-2">
-                        <!-- Facebook -->
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(newsUrl)}" 
-                           target="_blank" 
-                           class="btn btn-primary text-white">
-                            <i class="fab fa-facebook-f me-2"></i>Facebook
-                        </a>
-                        
-                        <!-- Twitter -->
-                        <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(newsTitle)}&url=${encodeURIComponent(newsUrl)}" 
-                           target="_blank" 
-                           class="btn btn-info text-white">
-                            <i class="fab fa-twitter me-2"></i>Twitter
-                        </a>
-                        
-                        <!-- Telegram -->
-                        <a href="https://t.me/share/url?url=${encodeURIComponent(newsUrl)}&text=${encodeURIComponent(newsTitle)}" 
-                           target="_blank" 
-                           class="btn btn-primary text-white">
-                            <i class="fab fa-telegram-plane me-2"></i>Telegram
-                        </a>
-                        
-                        <!-- WhatsApp -->
-                        <a href="https://wa.me/?text=${encodeURIComponent(newsTitle + ' ' + newsUrl)}" 
-                           target="_blank" 
-                           class="btn btn-success text-white">
-                            <i class="fab fa-whatsapp me-2"></i>WhatsApp
-                        </a>
-                        
-                        <!-- Copy Link -->
-                        <button onclick="copyToClipboard('${newsUrl}')" 
-                                class="btn btn-secondary text-white">
-                            <i class="fas fa-link me-2"></i>Nusxalash
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-        // Add modal to page
-        document.body.appendChild(modal);
-
-        // Show modal
-        const modalInstance = new bootstrap.Modal(modal);
-        modalInstance.show();
-
-        // Remove modal from DOM when hidden
-        modal.addEventListener('hidden.bs.modal', function () {
-            document.body.removeChild(modal);
-        });
+    // Statistika funksiyasi
+    function showStats() {
+        const totalNews = {{ pagination.total }};
+    };
+    const totalPages = {{ pagination.pages }};
+    const regionsCount = {{ regions| length }};
+    alert(`📊 Statistika:\n\n📰 Jami yangiliklar: ${totalNews}\n📄 Sahifalar: ${totalPages}\n🌱 Hududlar: ${regionsCount}`);
     }
 
+    // Like bosish funksiyasi
+    function likeNews(btn, newsId) {
+        const icon = btn.querySelector('i');
+        if (icon.classList.contains('far')) {
+            icon.classList.replace('far', 'fas');
+            icon.style.color = '#e11d48'; // Rose color
+            btn.classList.add('animate-heart');
+        } else {
+            icon.classList.replace('fas', 'far');
+            icon.style.color = '';
+            btn.classList.remove('animate-heart');
+        }
+    }
+
+    // Ulashish (Share) logic
+    document.addEventListener('click', function (e) {
+        const shareBtn = e.target.closest('.share-btn');
+        if (shareBtn) {
+            const newsId = shareBtn.dataset.newsId;
+            const newsTitle = shareBtn.dataset.newsTitle;
+            const newsUrl = window.location.origin + "{{ url_for('index') }}" + "?q=" + encodeURIComponent(newsId);
+
+            // Create a simple custom share alert/modal or use navigator.share if available
+            if (navigator.share) {
+                navigator.share({
+                    title: newsTitle,
+                    url: newsUrl
+                }).catch(err => console.log('Error sharing:', err));
+            } else {
+                copyToClipboard(newsUrl);
+            }
+        }
+    });
+
+    // Nusxalash funksiyasi
     function copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(function () {
-            // Show success message
             const toast = document.createElement('div');
             toast.className = 'position-fixed top-0 end-0 p-3';
             toast.style.zIndex = '9999';
             toast.innerHTML = `
-            <div class="toast show" role="alert">
-                <div class="toast-header">
-                    <i class="fas fa-check-circle text-success me-2"></i>
-                    <strong class="me-auto">Muvaffaqiyatli nusxalandi!</strong>
+                <div class="toast show shadow-lg border-0 rounded-4" role="alert">
+                    <div class="toast-header bg-success text-white rounded-top-4 border-0">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <strong class="me-auto">Nusxalandi!</strong>
+                    </div>
+                    <div class="toast-body bg-white rounded-bottom-4">
+                        Havola vaqtinchalik xotiraga nusxalandi.
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
             document.body.appendChild(toast);
-
-            // Remove toast after 3 seconds
             setTimeout(() => {
                 document.body.removeChild(toast);
             }, 3000);
         });
     }
 
-    // Time ago function
+    // Time ago funksiyasi
     function updateTimeAgo() {
         const timeElements = document.querySelectorAll('.time-ago');
         timeElements.forEach(element => {
-            const date = new Date(element.dataset.date);
+            const dateStr = element.dataset.date;
+            if (!dateStr) return;
+            const date = new Date(dateStr);
             const now = new Date();
-            const diff = Math.floor((now - date) / 1000); // seconds
+            const diff = Math.floor((now - date) / 1000);
 
             let timeAgo;
-            if (diff < 60) {
-                timeAgo = 'hozirgina';
-            } else if (diff < 3600) {
-                timeAgo = Math.floor(diff / 60) + ' daqiqa oldin';
-            } else if (diff < 86400) {
-                timeAgo = Math.floor(diff / 3600) + ' soat oldin';
-            } else {
-                timeAgo = Math.floor(diff / 86400) + ' kun oldin';
-            }
+            if (diff < 60) timeAgo = 'hozirgina';
+            else if (diff < 3600) timeAgo = Math.floor(diff / 60) + ' daqiqa oldin';
+            else if (diff < 86400) timeAgo = Math.floor(diff / 3600) + ' soat oldin';
+            else timeAgo = Math.floor(diff / 86400) + ' kun oldin';
 
             element.textContent = timeAgo;
         });
     }
 
-    // Update time ago on page load
-    document.addEventListener('DOMContentLoaded', updateTimeAgo);
+    // DOM Ready actions
+    document.addEventListener('DOMContentLoaded', () => {
+        updateTimeAgo();
+        setInterval(updateTimeAgo, 60000);
 
-    // Update time ago every minute
-    setInterval(updateTimeAgo, 60000);
-
-    // Add smooth scroll behavior
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
+        // Smooth scrolling for all anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
         });
-    });
-
-    // Add parallax effect to hero section
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero-section');
-        if (hero) {
-            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        }
     });
 </script>

@@ -1,0 +1,72 @@
+# Uzbek (Cyrillic) translations
+# Copyright (C) 2024 ORGANIZATION
+
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2024-01-17 11:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uz_Cyrl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+#: templates/base.html:5
+msgid "Yangiliklar sayti"
+msgstr "Ўзбекча - Экологик янгиликлар"
+
+#: templates/base.html:27
+msgid "EcoNews"
+msgstr "EcoNews"
+
+#: templates/index.html:13
+msgid "So'nggi ekologik yangiliklar"
+msgstr "Сўнги экологик янгиликлар"
+
+#: templates/index.html:20
+msgid "O'rmonlar va yashil hududlar haqida eng so'ngi ma'lumotlar"
+msgstr "Ўрмонлар ва яшил ҳудудлар ҳақида энг сўнги маълумотлар"
+
+#: templates/index.html:25
+msgid "Yangiliklarni ko'rish"
+msgstr "Янгиликларни кўриш"
+
+#: templates/index.html:28
+msgid "Statistika"
+msgstr "Статистика"
+
+#: templates/index.html:44
+#, python-format
+msgid "bo'yicha <strong>%(total)s</strong> ta yangilik topildi"
+msgstr "бўйича <strong>%(total)s</strong> та янгилик топилди"
+
+#: templates/index.html:46
+#, python-format
+msgid "%(region)s uchun <strong>%(total)s</strong> ta yangilik"
+msgstr "%(region)s учун <strong>%(total)s</strong> та янгилик"
+
+#: templates/index.html:63
+msgid "Hozircha yangiliklar yo'q"
+msgstr "Ҳозирча янгиликлар йўқ"
+
+#: templates/index.html:64
+msgid "Tabiat uyg'onmoqda... Tez orada yangiliklar bo'ladi."
+msgstr "Табиат уғонмоқда... Тез орада янгиликлар бўлади."
+
+#: templates/index.html:98
+msgid "To'liq o'qish"
+msgstr "Тўлиқ ўқиш"
+
+#: templates/index.html:123
+msgid "Yoqdi"
+msgstr "Ўқди"
+
+#: templates/index.html:126
+msgid "Ulashish"
+msgstr "Улашиш"
+
+#: templates/index.html:210
+#, python-format
+msgid "📊 Statistika:\\n\\n📰 Jami yangiliklar: %(total_news)s\\n📄 Sahifalar: %(total_pages)s\\n🌱 Hududlar: %(regions_count)s"
+msgstr "📊 Статистика:\\n\\n📰 Жами янгиликлар: %(total_news)s\\n📄 Саҳифалар: %(total_pages)s\\n🌱 Ҳудудлар: %(regions_count)s"

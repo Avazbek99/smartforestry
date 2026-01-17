@@ -317,6 +317,18 @@ def add_region():
     return render_template('add_region.html')
 
 
+@app.route('/admin/region/edit/<int:region_id>', methods=['GET', 'POST'])
+@login_required_superadmin
+def edit_region(region_id):
+    region = Region.query.get_or_404(region_id)
+    if request.method == 'POST':
+        region.name = request.form['name']
+        region.slug = request.form['slug']
+        db.session.commit()
+        return redirect(url_for('superadmin_dashboard'))
+    return render_template('edit_region.html', region=region)
+
+
 @app.route('/admin/admin/add', methods=['GET', 'POST'])
 @login_required_superadmin
 def add_admin():
@@ -331,6 +343,21 @@ def add_admin():
         db.session.commit()
         return redirect(url_for('superadmin_dashboard'))
     return render_template('add_admin.html', regions=regions)
+
+
+@app.route('/admin/admin/edit/<int:admin_id>', methods=['GET', 'POST'])
+@login_required_superadmin
+def edit_admin(admin_id):
+    admin = Admin.query.get_or_404(admin_id)
+    regions = Region.query.all()
+    if request.method == 'POST':
+        admin.username = request.form['username']
+        admin.region_id = request.form['region_id']
+        if request.form.get('password'):
+            admin.set_password(request.form['password'])
+        db.session.commit()
+        return redirect(url_for('superadmin_dashboard'))
+    return render_template('edit_admin.html', admin=admin, regions=regions)
 
 
 

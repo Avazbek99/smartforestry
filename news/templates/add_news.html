@@ -3,34 +3,57 @@
 {% block title %}Yangilik Qo'shish - {{ region.name }}{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-10">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">
-                    <i class="fas fa-plus"></i> {{ region.name }} uchun yangilik qo'shish
-                </h4>
+<div class="row justify-content-center py-5">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-lg animate-fade-in">
+            <div class="card-header bg-white border-bottom p-4">
+                <h3 class="mb-0 fw-bold text-eco-primary">
+                    <i class="fas fa-file-signature me-2 text-eco-secondary"></i>Yangi Maqola Yozish
+                </h3>
+                <p class="text-muted-serious small mb-0 mt-2"><strong>{{ region.name }}</strong> hududi uchun yangilik
+                    loyihasini tayyorlang</p>
             </div>
-            <div class="card-body">
+            <div class="card-body p-4">
                 <form method="POST">
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Sarlavha</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
-                        <div class="form-text">Yangilik sarlavhasi (maksimal 200 belgi)</div>
+                    <div class="mb-4">
+                        <label for="title" class="form-label fw-600">Maqola sarlavhasi</label>
+                        <input type="text" class="form-control form-control-lg" id="title" name="title"
+                            placeholder="Sarlavhani kiriting..." required>
+                        <div class="form-text text-muted-serious">O'quvchi e'tiborini tortadigan, qisqa va lo'nda
+                            sarlavha</div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Mazmuni</label>
-                        <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
-                        <div class="form-text">Yangilikning to'liq matni</div>
+                    <div class="mb-4">
+                        <label for="category_id" class="form-label fw-600">Rukn (Kategoriya)</label>
+                        <select class="form-select" id="category_id" name="category_id">
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Orqaga
+                    <div class="mb-4">
+                        <label for="image_url" class="form-label fw-600">Rasm havola (URL)</label>
+                        <input type="url" class="form-control" id="image_url" name="image_url"
+                            placeholder="https://example.com/image.jpg">
+                        <div class="form-text text-muted-serious">Maqola uchun asosiy tasvir havolasi (ixtiyoriy)</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="content" class="form-label fw-600">Maqola matni</label>
+                        <textarea class="form-control" id="content" name="content" rows="12"
+                            placeholder="Yangilik mazmunini shu yerga yozing..." required></textarea>
+                        <div class="form-text text-muted-serious">Ma'lumotlar aniqligi va imloviy xatolarga e'tibor
+                            bering</div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-5">
+                        <a href="{{ url_for('admin_dashboard') }}"
+                            class="btn btn-link text-eco-muted text-decoration-none">
+                            <i class="fas fa-arrow-left me-2"></i>Bekor qilish
                         </a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Yangilikni qo'shish
+                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow-eco">
+                            <i class="fas fa-paper-plane me-2"></i>Nashr qilish
                         </button>
                     </div>
                 </form>

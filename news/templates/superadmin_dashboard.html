@@ -3,67 +3,90 @@
 {% block title %}{{ _('SuperAdmin Panel') }}{% endblock %}
 
 {% block content %}
+<div class="row align-items-center mb-5 animate-fade-in">
+    <div class="col-md-6">
+        <h1 class="display-5 fw-bold text-eco-primary mb-1">
+            <i class="fas fa-shield-alt me-2 text-eco-secondary"></i>SuperAdmin
+        </h1>
+        <p class="text-muted-serious mb-0">Platformani to'liq nazorat qilish va boshqarish</p>
+    </div>
+    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+        <div class="d-flex justify-content-md-end gap-2">
+            <a href="{{ url_for('add_region') }}" class="btn btn-outline-primary px-4">
+                <i class="fas fa-map-plus me-2"></i>Hudud qo'shish
+            </a>
+            <a href="{{ url_for('add_admin') }}" class="btn btn-primary px-4 shadow-eco">
+                <i class="fas fa-user-plus me-2"></i>Admin qo'shish
+            </a>
+        </div>
+    </div>
+</div>
+
 <!-- Statistics Cards -->
-<div class="row mb-4">
-    <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card border-0 bg-gradient-success text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="mb-0">{{ regions|length }}</h4>
-                        <p class="mb-0">{{ _('Jami hududlar') }}</p>
+<div class="row mb-5 animate-fade-in" style="animation-delay: 100ms;">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm border-start border-4 border-success">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center">
+                    <div
+                        class="flex-shrink-0 avatar-sm bg-soft-emerald rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <i class="fas fa-map-marked-alt text-eco-primary"></i>
                     </div>
-                    <div class="ms-3">
-                        <i class="fas fa-map-marked-alt fa-2x opacity-75"></i>
+                    <div>
+                        <h4 class="mb-0 fw-bold">{{ regions|length }}</h4>
+                        <p class="text-muted small mb-0">{{ _('Jami hududlar') }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card border-0 bg-gradient-info text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="mb-0">{{ admins|length }}</h4>
-                        <p class="mb-0">Jami adminlar</p>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm border-start border-4 border-info">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center">
+                    <div
+                        class="flex-shrink-0 avatar-sm bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <i class="fas fa-users text-info"></i>
                     </div>
-                    <div class="ms-3">
-                        <i class="fas fa-users fa-2x opacity-75"></i>
+                    <div>
+                        <h4 class="mb-0 fw-bold">{{ admins|length }}</h4>
+                        <p class="text-muted small mb-0">Tizim adminlari</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card border-0 bg-gradient-warning text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm border-start border-4 border-warning">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center">
+                    <div
+                        class="flex-shrink-0 avatar-sm bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <i class="fas fa-newspaper text-warning"></i>
+                    </div>
                     <div>
                         {% set total_news = 0 %}
                         {% for region in regions %}
                         {% set total_news = total_news + region.news|length %}
                         {% endfor %}
-                        <h4 class="mb-0">{{ total_news }}</h4>
-                        <p class="mb-0">Jami yangiliklar</p>
-                    </div>
-                    <div class="ms-3">
-                        <i class="fas fa-newspaper fa-2x opacity-75"></i>
+                        <h4 class="mb-0 fw-bold">{{ total_news }}</h4>
+                        <p class="text-muted small mb-0">Jami yangiliklar</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-        <div class="card border-0 bg-gradient-primary text-white">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm border-start border-4 border-primary">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center">
+                    <div
+                        class="flex-shrink-0 avatar-sm bg-soft-emerald rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <i class="fas fa-tags text-eco-primary"></i>
+                    </div>
                     <div>
-                        <h4 class="mb-0">{{ categories|length }}</h4>
-                        <p class="mb-0">Kategoriyalar</p>
-                    </div>
-                    <div class="ms-3">
-                        <i class="fas fa-tags fa-2x opacity-75"></i>
+                        <h4 class="mb-0 fw-bold">{{ categories|length }}</h4>
+                        <p class="text-muted small mb-0">Ruknlar</p>
                     </div>
                 </div>
             </div>
@@ -71,109 +94,126 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>
-                <i class="fas fa-cog"></i> SuperAdmin Panel
-            </h1>
-            <div>
-                <a href="{{ url_for('add_region') }}" class="btn btn-primary me-2">
-                    <i class="fas fa-plus"></i> {{ _('Hudud qo\'shish') }}
-                </a>
-                <a href="{{ url_for('add_admin') }}" class="btn btn-success">
-                    <i class="fas fa-user-plus"></i> {{ _('Admin qo\'shish') }}
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
+<div class="row mb-5 animate-fade-in" style="animation-delay: 200ms;">
+    <!-- Regions Section -->
     <div class="col-lg-6 mb-4">
-        <div class="card">
-            <div class="card-header bg-white border-bottom border-success text-success">
-                <h5 class="mb-0">
-                    <i class="fas fa-map-marked-alt"></i> Hududlar
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom p-4 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-eco-primary">
+                    <i class="fas fa-globe-asia me-2 text-eco-secondary"></i>Hududlar
                 </h5>
             </div>
-            <div class="card-body">
-                {% if regions %}
+            <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
                             <tr>
-                                <th>{{ _('Nomi') }}</th>
-                                <th>{{ _('Slug') }}</th>
-                                <th>{{ _('Adminlar soni') }}</th>
-                                <th>{{ _('Yangiliklar soni') }}</th>
+                                <th class="px-4 py-3 border-0 small text-uppercase fw-600">Hududni</th>
+                                <th class="py-3 border-0 small text-uppercase fw-600">Adminlar</th>
+                                <th class="py-3 border-0 small text-uppercase fw-600 text-center">Amallar</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for region in regions %}
                             <tr>
-                                <td class="fw-bold">{{ region.name }}</td>
-                                <td><span class="badge bg-light text-dark border">{{ region.slug }}</span></td>
-                                <td><span class="badge bg-success rounded-pill">{{ region.admins|length }}</span></td>
-                                <td><span class="badge bg-info rounded-pill">{{ region.news|length }}</span></td>
+                                <td class="px-4 py-3">
+                                    <div class="fw-bold text-eco-dark">{{ region.name }}</div>
+                                    <div class="text-muted small">{{ region.slug }}</div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-soft-emerald text-eco-primary rounded-pill px-3">{{
+                                        region.admins|length }} admin</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-1">
+                                        <a href="{{ url_for('edit_region', region_id=region.id) }}"
+                                            class="btn btn-sm btn-icon border-0">
+                                            <i class="fas fa-edit text-info"></i>
+                                        </a>
+                                        <form method="POST"
+                                            action="{{ url_for('superadmin_delete_region', region_id=region.id) }}"
+                                            class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-icon border-0"
+                                                onclick="return confirm('Hududni o\'chirsangiz, barcha admin va yangiliklar ham o\'chadi. Ishonchingiz komilmi?')">
+                                                <i class="fas fa-trash-alt text-danger"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
-                {% else %}
-                <p class="text-muted">{{ _('Hududlar hali qo\'shilmagan') }}</p>
-                {% endif %}
             </div>
         </div>
     </div>
 
+    <!-- Admins Section -->
     <div class="col-lg-6 mb-4">
-        <div class="card">
-            <div class="card-header bg-white border-bottom border-info text-info">
-                <h5 class="mb-0">
-                    <i class="fas fa-users"></i> Adminlar
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom p-4 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-eco-primary">
+                    <i class="fas fa-user-shield me-2 text-eco-secondary"></i>Region Adminlari
                 </h5>
             </div>
-            <div class="card-body">
-                {% if admins %}
+            <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
                             <tr>
-                                <th>{{ _('Username') }}</th>
-                                <th>{{ _('Hudud') }}</th>
-                                <th>{{ _('Yangiliklar soni') }}</th>
+                                <th class="px-4 py-3 border-0 small text-uppercase fw-600">Foydalanuvchi</th>
+                                <th class="py-3 border-0 small text-uppercase fw-600">Hududi</th>
+                                <th class="py-3 border-0 small text-uppercase fw-600 text-center">Amallar</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for admin in admins %}
                             <tr>
-                                <td class="fw-bold">{{ admin.username }}</td>
-                                <td><span class="badge bg-light text-dark border">{{ admin.region.name }}</span></td>
-                                <td><span class="badge bg-primary rounded-pill">{{ admin.news|length }}</span></td>
+                                <td class="px-4 py-3">
+                                    <div class="fw-bold text-eco-dark">{{ admin.username }}</div>
+                                    <div class="text-muted small">Azo bo'lgan: {{ admin.id }}</div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-light text-eco-secondary px-3 py-2 rounded-3">{{
+                                        admin.region.name }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-1">
+                                        <a href="{{ url_for('edit_admin', admin_id=admin.id) }}"
+                                            class="btn btn-sm btn-icon border-0">
+                                            <i class="fas fa-edit text-info"></i>
+                                        </a>
+                                        <form method="POST"
+                                            action="{{ url_for('superadmin_delete_admin', admin_id=admin.id) }}"
+                                            class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-icon border-0"
+                                                onclick="return confirm('Adminni o\'chirishni xohlaysizmi?')">
+                                                <i class="fas fa-trash-alt text-danger"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
-                {% else %}
-                <p class="text-muted">{{ _('Adminlar hali qo\'shilmagan') }}</p>
-                {% endif %}
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header bg-white border-bottom border-primary text-primary">
-                <h5 class="mb-0">
-                    <i class="fas fa-newspaper"></i> Barcha Yangiliklar
+<div class="row animate-fade-in" style="animation-delay: 300ms;">
+    <!-- All News Section -->
+    <div class="col-12 mb-5">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom p-4">
+                <h5 class="mb-0 fw-bold text-eco-primary">
+                    <i class="fas fa-newspaper me-2 text-eco-secondary"></i>Barcha Yangiliklar Monitoringi
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body p-0">
                 {% set all_news = [] %}
                 {% for region in regions %}
                 {% for news in region.news %}
@@ -181,32 +221,37 @@
                 {% endfor %}
                 {% endfor %}
 
-                {% if all_news %}
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
                             <tr>
-                                <th>{{ _('Sarlavha') }}</th>
-                                <th>{{ _('Muallif') }}</th>
-                                <th>{{ _('Hudud') }}</th>
-                                <th>{{ _('Sana') }}</th>
-                                <th>{{ _('Amallar') }}</th>
+                                <th class="px-4 py-3 border-0 small text-uppercase fw-600">Sarlavha</th>
+                                <th class="py-3 border-0 small text-uppercase fw-600">Muallif / Hudud</th>
+                                <th class="py-3 border-0 small text-uppercase fw-600 text-center">Sana</th>
+                                <th class="py-3 border-0 small text-uppercase fw-600 text-center">Amallar</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for news in all_news|sort(attribute='created_at', reverse=true) %}
                             <tr>
-                                <td class="fw-bold text-dark">{{ news.title }}</td>
-                                <td>{{ news.admin.username }}</td>
-                                <td><span class="badge bg-light text-dark border">{{ news.region.name }}</span></td>
-                                <td class="text-muted">{{ news.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="fw-bold truncate-cell" title="{{ news.title }}">{{ news.title }}</div>
+                                </td>
                                 <td>
+                                    <div class="fw-600 text-eco-primary">{{ news.admin.username }}</div>
+                                    <div class="text-muted small">{{ news.region.name }}</div>
+                                </td>
+                                <td class="text-center text-muted small">
+                                    {{ news.created_at.strftime('%d.%m.%Y') }}<br>
+                                    {{ news.created_at.strftime('%H:%M') }}
+                                </td>
+                                <td class="text-center">
                                     <form method="POST"
                                         action="{{ url_for('superadmin_delete_news', news_id=news.id) }}"
                                         class="d-inline">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('{{ _('Rostdan ham o\'chirmoqchimisiz?') }}')">
-                                            <i class="fas fa-trash"></i>
+                                        <button type="submit" class="btn btn-sm btn-icon border-0"
+                                            onclick="return confirm('Yangilikni o\'chirmoqchimisiz?')">
+                                            <i class="fas fa-trash-alt text-danger"></i>
                                         </button>
                                     </form>
                                 </td>
@@ -215,11 +260,17 @@
                         </tbody>
                     </table>
                 </div>
-                {% else %}
-                <p class="text-muted">{{ _('Yangiliklar hali qo\'shilmagan') }}</p>
-                {% endif %}
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .truncate-cell {
+        max-width: 300px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
 {% endblock %}

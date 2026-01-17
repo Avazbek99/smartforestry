@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Admin Qo'shish - SuperAdmin{% endblock %}
+{% block title %}Adminni Tahrirlash - SuperAdmin{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center py-5">
@@ -8,44 +8,40 @@
         <div class="card border-0 shadow-lg animate-fade-in">
             <div class="card-header bg-white border-bottom p-4">
                 <h3 class="mb-0 fw-bold text-eco-primary">
-                    <i class="fas fa-user-plus me-2 text-eco-secondary"></i>Yangi Admin Qo'shish
+                    <i class="fas fa-user-edit me-2 text-eco-secondary"></i>Adminni Tahrirlash
                 </h3>
-                <p class="text-muted small mb-0 mt-2">Hududiy boshqaruvchi hisobini yarating</p>
+                <p class="text-muted small mb-0 mt-2">Mavjud admin hisobi ma'lumotlarini o'zgartirish</p>
             </div>
             <div class="card-body p-4">
                 <form method="POST">
                     <div class="mb-4">
                         <label for="username" class="form-label fw-600">Admin logini</label>
-                        <input type="text" class="form-control" id="username" name="username"
-                            placeholder="Masalan: toshkent_admin" required>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ admin.username }}" required>
                         <div class="form-text text-muted-serious">Tizimga kirish uchun login nomi</div>
                     </div>
-
+                    
                     <div class="mb-4">
-                        <label for="password" class="form-label fw-600">Parol</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="••••••••"
-                            required>
-                        <div class="form-text text-muted-serious">Ishonchli va murakkab parol o'rnating</div>
+                        <label for="password" class="form-label fw-600">Yangi parol (ixtiyoriy)</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="••••••••">
+                        <div class="form-text text-muted-serious">Agar parolni o'zgartirmoqchi bo'lsangiz, yangisini kiriting. Bo'sh qolsa, eskisi qoladi.</div>
                     </div>
-
+                    
                     <div class="mb-4">
                         <label for="region_id" class="form-label fw-600">Mas'ul hudud</label>
                         <select class="form-select" id="region_id" name="region_id" required>
-                            <option value="" disabled selected>Hududni tanlang...</option>
                             {% for region in regions %}
-                            <option value="{{ region.id }}">{{ region.name }}</option>
+                                <option value="{{ region.id }}" {% if admin.region_id == region.id %}selected{% endif %}>{{ region.name }}</option>
                             {% endfor %}
                         </select>
                         <div class="form-text text-muted-serious">Admin ushbu hudud yangiliklarini boshqaradi</div>
                     </div>
-
+                    
                     <div class="d-flex justify-content-between align-items-center mt-5">
-                        <a href="{{ url_for('superadmin_dashboard') }}"
-                            class="btn btn-link text-eco-muted text-decoration-none">
+                        <a href="{{ url_for('superadmin_dashboard') }}" class="btn btn-link text-eco-muted text-decoration-none">
                             <i class="fas fa-arrow-left me-2"></i>Qaytish
                         </a>
                         <button type="submit" class="btn btn-primary px-5">
-                            <i class="fas fa-save me-2"></i>Saqlash
+                            <i class="fas fa-save me-2"></i>Yangilash
                         </button>
                     </div>
                 </form>

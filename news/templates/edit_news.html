@@ -3,49 +3,64 @@
 {% block title %}Yangilikni Tahrirlash - {{ region.name }}{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-10">
-        <div class="card shadow">
-            <div class="card-header bg-warning text-white">
-                <h4 class="mb-0">
-                    <i class="fas fa-edit"></i> Yangilikni tahrirlash
-                </h4>
+<div class="row justify-content-center py-5">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-lg animate-fade-in">
+            <div class="card-header bg-white border-bottom p-4">
+                <h3 class="mb-0 fw-bold text-eco-primary">
+                    <i class="fas fa-edit me-2 text-eco-secondary"></i>Maqolani Tahrirlash
+                </h3>
+                <p class="text-muted-serious small mb-0 mt-2"><strong>{{ region.name }}</strong> hududi yangiligini
+                    o'zgartirish</p>
             </div>
-            <div class="card-body">
+            <div class="card-body p-4">
                 <form method="POST">
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Sarlavha</label>
-                        <input type="text" class="form-control" id="title" name="title" value="{{ news.title }}"
-                            required>
-                        <div class="form-text">Yangilik sarlavhasi (maksimal 200 belgi)</div>
+                    <div class="mb-4">
+                        <label for="title" class="form-label fw-600">Maqola sarlavhasi</label>
+                        <input type="text" class="form-control form-control-lg" id="title" name="title"
+                            value="{{ news.title }}" required>
+                        <div class="form-text text-muted-serious">Sarlavhani tahrirlang</div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Mazmuni</label>
-                        <textarea class="form-control" id="content" name="content" rows="10"
+                    <div class="mb-4">
+                        <label for="category_id" class="form-label fw-600">Rukn (Kategoriya)</label>
+                        <select class="form-select" id="category_id" name="category_id">
+                            {% for category in categories %}
+                            <option value="{{ category.id }}" {% if news.category_id==category.id %}selected{% endif %}>
+                                {{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="image_url" class="form-label fw-600">Rasm havola (URL)</label>
+                        <input type="url" class="form-control" id="image_url" name="image_url"
+                            value="{{ news.image_url or '' }}" placeholder="https://example.com/image.jpg">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="content" class="form-label fw-600">Maqola matni</label>
+                        <textarea class="form-control" id="content" name="content" rows="12"
                             required>{{ news.content }}</textarea>
-                        <div class="form-text">Yangilikning to'liq matni</div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <small class="text-muted">
-                                <strong>Yaratilgan:</strong> {{ news.created_at.strftime('%d.%m.%Y %H:%M') }}
-                            </small>
-                        </div>
-                        <div class="col-md-6 text-end">
-                            <small class="text-muted">
-                                <strong>Muallif:</strong> {{ news.admin.username }}
-                            </small>
-                        </div>
+                    <div class="p-3 bg-light rounded-3 mb-4 d-flex justify-content-between">
+                        <small class="text-eco-muted">
+                            <i class="fas fa-clock me-1"></i><strong>Yaratilgan:</strong> {{
+                            news.created_at.strftime('%d.%m.%Y %H:%M') }}
+                        </small>
+                        <small class="text-eco-muted">
+                            <i class="fas fa-user-edit me-1"></i><strong>Muallif:</strong> {{ news.admin.username }}
+                        </small>
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Orqaga
+                    <div class="d-flex justify-content-between align-items-center mt-5">
+                        <a href="{{ url_for('admin_dashboard') }}"
+                            class="btn btn-link text-eco-muted text-decoration-none">
+                            <i class="fas fa-arrow-left me-2"></i>Qaytish
                         </a>
-                        <button type="submit" class="btn btn-warning">
-                            <i class="fas fa-save"></i> O'zgarishlarni saqlash
+                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow-eco">
+                            <i class="fas fa-save me-2"></i>Saqlash
                         </button>
                     </div>
                 </form>
